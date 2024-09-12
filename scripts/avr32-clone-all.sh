@@ -33,7 +33,7 @@ clone_tool () {
 
     # Clear out anything pre-existing and clone the repo
     rm -rf ${tool}
-    gh repo clone ${repo} ${tool} -- -o ${remote}
+    echo gh repo clone ${repo} ${tool} -- -o ${remote}
 }
 
 # Clone all the AVR32 tool components. Note that we need two copies of the

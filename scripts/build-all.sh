@@ -19,7 +19,7 @@
 # more details.
 
 # You should have received a copy of the GNU General Public License along
-# with this program.  If not, see <http://www.gnu.org/licenses/>.          
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #		     SCRIPT TO BUILD AVR32-ELF TOOL CHAIN
 #		     ====================================
@@ -125,6 +125,8 @@ unset parallel
 unset datestamp
 unset jobs
 unset load
+
+CFLAGS='-Wno-error -fcommon -Wl,--allow-multiple-definition'
 
 # Set some useful constants
 VERSION=3.4.2_gs1
@@ -288,7 +290,11 @@ mkdir -p "${bd_binutils}"
 cd "${bd_binutils}"
 
 # Configure the build
-if "${rootdir}/binutils"/configure --target=avr32 \
+
+if "${rootdir}/binutils"/configure \
+	MAKEINFO='makeinfo --force' \
+	CFLAGS="${CFLAGS}" \
+	--target=avr32 \
         --disable-nls --disable-werror \
         --with-pkgversion="AVR32 toolchain ${VERSION} (built $(date +%Y%m%d))" \
         --with-bugurl="http://www.atmel.com/avr" \
@@ -323,6 +329,7 @@ rm -f bfd/Makefile
 
 # Build
 cd "${bd_binutils}"
+
 if make ${parallel} all-build all-binutils all-gas all-ld >> "${logfile}" 2>&1
 then
     echo "  finished building binutils"
@@ -331,6 +338,7 @@ else
     echo "- see ${logfile}"
     exit 1
 fi
+
 
 # Install binutils
 echo "Installing binutils" >> "${logfile}"
@@ -361,7 +369,9 @@ mkdir -p "${bd_gcc_bs}"
 cd "${bd_gcc_bs}"
 
 # Configure the build
-if CFLAGS='-fgnu89-inline' CXXFLAGS='-fgnu89-inline' "${rootdir}/gcc"/configure --target=avr32 \
+if "${rootdir}/gcc"/configure --target=avr32 \
+	MAKEINFO='makeinfo --force' \
+	CFLAGS="${CFLAGS} -fgnu89-inline" \
         --disable-libssp --disable-shared \
         --disable-threads --disable-nls \
         --disable-libstdcxx-pch --without-headers \
@@ -425,6 +435,8 @@ cd "${bd_newlib}"
 
 # Configure the build
 if "${rootdir}/newlib"/configure --target=avr32 \
+	MAKEINFO='makeinfo --force' \
+	CFLAGS="${CFLAGS}" \
         --enable-newlib-io-long-long \
         --enable-newlib-io-long-double \
         --enable-newlib-io-pos-args \
@@ -488,7 +500,9 @@ mkdir -p "${bd_gcc}"
 cd "${bd_gcc}"
 
 # Configure the build
-if CFLAGS='-fgnu89-inline' CXXFLAGS='-fgnu89-inline' "${rootdir}/gcc"/configure --target=avr32 \
+if "${rootdir}/gcc"/configure --target=avr32 \
+	MAKEINFO='makeinfo --force' \
+	CFLAGS="${CFLAGS} -fgnu89-inline" \
         --disable-libssp --disable-shared \
         --disable-threads --disable-nls \
         --disable-libstdcxx-pch --without-headers \
@@ -557,9 +571,12 @@ cd "${bd_gdb}"
 
 # Configure the build
 if "${rootdir}/gdb"/configure --target=avr32 \
+	MAKEINFO='makeinfo --force' \
+	CFLAGS="${CFLAGS}" \
         --disable-nls --disable-werror --with-python \
         --with-pkgversion="AVR32 toolchain ${VERSION} (built $(date +%Y%m%d))" \
         --with-bugurl="http://www.atmel.com/avr" \
+        --with-expat \
         --prefix=${installdir} >> "${logfile}" 2>&1
 then
     echo "  finished configuring gdb"
@@ -603,7 +620,7 @@ else
     exit 1
 fi
 
-# Create tarball 
+# Create tarball
 echo "Create tarball for install" >> "${logfile}"
 cd "${rootdir}"
 tar czf avr32-gnu-toolchain-${VERSION}.${PATCHLEVEL}-linux.any.x86_64.tar.gz -C /usr/local avr32-gnu-toolchain-linux_x86_64

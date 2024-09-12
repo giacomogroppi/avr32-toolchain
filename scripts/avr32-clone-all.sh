@@ -1,5 +1,5 @@
 #!/bin/sh
- 
+
 # Copyright (C) 2013 Embecosm Limited.
 
 # Contributor Jeremy Bennett <jeremy.bennett@embecosm.com>
@@ -17,7 +17,7 @@
 # more details.
 
 # You should have received a copy of the GNU General Public License along
-# with this program.  If not, see <http://www.gnu.org/licenses/>.          
+# with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #		    CLONE ALL AVR32 TOOL CHAIN COMPONENTS
 #		    =====================================
@@ -33,15 +33,15 @@ clone_tool () {
 
     # Clear out anything pre-existing and clone the repo
     rm -rf ${tool}
-    git clone -o ${remote} ${repo} ${tool}
+    gh repo clone ${repo} ${tool} -- -o ${remote}
 }
 
 # Clone all the AVR32 tool components. Note that we need two copies of the
 # binutils-gdb repo, to allow us to work with different versions (branches) of
 # binutils and gdb
-clone_tool origin binutils git@github.com:GomSpace/avr32-binutils-gdb.git
-clone_tool origin gcc      git@github.com:GomSpace/avr32-gcc.git
-clone_tool origin newlib   git@github.com:GomSpace/avr32-newlib.git
+clone_tool origin binutils GomSpace/avr32-binutils-gdb
+clone_tool origin gcc      GomSpace/avr32-gcc
+clone_tool origin newlib   GomSpace/avr32-newlib
 cp -rd binutils gdb
 
 # We perhaps ought to allow an option to check out specific versions. For now

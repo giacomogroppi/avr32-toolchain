@@ -264,6 +264,8 @@ if ! ${rootdir}/scripts/avr32-versions.sh ${rootdir} ${autocheckout} \
 then
     echo "ERROR: Failed to checkout GIT versions of tools"
     echo "- see ${logfile}"
+    echo "root folder content:"
+    ls -la /root 
     echo "LOGFILE: "
     cat ${logfile}
     exit 1

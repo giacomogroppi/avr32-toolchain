@@ -39,7 +39,7 @@ clone_tool () {
 # Clone all the AVR32 tool components. Note that we need two copies of the
 # binutils-gdb repo, to allow us to work with different versions (branches) of
 # binutils and gdb
-clone_tool origin binutils flakyferr/avr32-binutils-gdb
+clone_tool origin binutils GomSpace/avr32-binutils-gdb
 clone_tool origin gcc      GomSpace/avr32-gcc
 clone_tool origin newlib   GomSpace/avr32-newlib
 cp -rd binutils gdb

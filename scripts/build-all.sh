@@ -265,7 +265,7 @@ then
     echo "ERROR: Failed to checkout GIT versions of tools"
     echo "- see ${logfile}"
     echo "root folder content:"
-    ls -la /root/avr32-toolchain
+    ls -la /root/avr32-toolchain/scripts
     echo "LOGFILE: "
     cat ${logfile}
     exit 1

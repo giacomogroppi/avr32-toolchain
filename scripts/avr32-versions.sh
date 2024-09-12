@@ -80,6 +80,7 @@ do
 
     if [ "x${autocheckout}" = "x--auto-checkout" ]
     then
+    	git fetch
 	if ! git checkout ${branch}
 	then
 	    exit 1

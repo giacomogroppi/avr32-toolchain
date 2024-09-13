@@ -587,6 +587,7 @@ then
 else
     echo "ERROR: gdb configure failed."
     echo "- see ${logfile}"
+    cat ${logfile}
     exit 1
 fi
 

@@ -605,6 +605,7 @@ then
 else
     echo "ERROR: gdb build failed."
     echo "- see ${logfile}"
+    cat ${logfile}
     exit 1
 fi
 

@@ -352,14 +352,15 @@ echo "Installing binutils ..."
 
 # Install
 cd "${bd_binutils}"
-if make install-binutils install-gas install-ld >> "${logfile}" 2>&1
-then
-    echo "  finished installing binutils"
-else
-    echo "ERROR: binutils install failed."
-    echo "- see ${logfile}"
-    exit 1
-fi
+make install-binutils install-gas install-ld
+#if make install-binutils install-gas install-ld >> "${logfile}" 2>&1
+#then
+#    echo "  finished installing binutils"
+#else
+#    echo "ERROR: binutils install failed."
+#    echo "- see ${logfile}"
+#    exit 1
+#fi
 
 # Configure gcc bootstrap (pre-Newlib)
 echo "Configuring gcc (bootstrap)" >> "${logfile}"
